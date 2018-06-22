@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yst.mapper.ItemSpecificationMapper" >
+  <resultMap id="BaseResultMap" type="com.yst.pojo.ItemSpecification" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="configuration_name" property="configurationName" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="fix_price" property="fixPrice" jdbcType="DECIMAL" />
+    <result column="now_price" property="nowPrice" jdbcType="DECIMAL" />
+    <result column="oil_wear" property="oilWear" jdbcType="VARCHAR" />
+    <result column="displacement" property="displacement" jdbcType="DOUBLE" />
+    <result column="energy" property="energy" jdbcType="INTEGER" />
+    <result column="seat_number" property="seatNumber" jdbcType="INTEGER" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yst.pojo.ItemSpecification" extends="BaseResultMap" >
+    <result column="img_str" property="imgStr" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, item_id, configuration_name, color, fix_price, now_price, oil_wear, displacement, 
+    energy, seat_number, stock
+  </sql>
+  <sql id="Blob_Column_List" >
+    img_str
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yst.pojo.ItemSpecificationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from item_specification
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yst.pojo.ItemSpecificationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from item_specification
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from item_specification
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from item_specification
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yst.pojo.ItemSpecificationExample" >
+    delete from item_specification
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yst.pojo.ItemSpecification" >
+    insert into item_specification (id, item_id, configuration_name, 
+      color, fix_price, now_price, 
+      oil_wear, displacement, energy, 
+      seat_number, stock, img_str
+      )
+    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{configurationName,jdbcType=VARCHAR}, 
+      #{color,jdbcType=VARCHAR}, #{fixPrice,jdbcType=DECIMAL}, #{nowPrice,jdbcType=DECIMAL}, 
+      #{oilWear,jdbcType=VARCHAR}, #{displacement,jdbcType=DOUBLE}, #{energy,jdbcType=INTEGER}, 
+      #{seatNumber,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, #{imgStr,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yst.pojo.ItemSpecification" >
+    insert into item_specification
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="configurationName != null" >
+        configuration_name,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="fixPrice != null" >
+        fix_price,
+      </if>
+      <if test="nowPrice != null" >
+        now_price,
+      </if>
+      <if test="oilWear != null" >
+        oil_wear,
+      </if>
+      <if test="displacement != null" >
+        displacement,
+      </if>
+      <if test="energy != null" >
+        energy,
+      </if>
+      <if test="seatNumber != null" >
+        seat_number,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="imgStr != null" >
+        img_str,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="configurationName != null" >
+        #{configurationName,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="fixPrice != null" >
+        #{fixPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="nowPrice != null" >
+        #{nowPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oilWear != null" >
+        #{oilWear,jdbcType=VARCHAR},
+      </if>
+      <if test="displacement != null" >
+        #{displacement,jdbcType=DOUBLE},
+      </if>
+      <if test="energy != null" >
+        #{energy,jdbcType=INTEGER},
+      </if>
+      <if test="seatNumber != null" >
+        #{seatNumber,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="imgStr != null" >
+        #{imgStr,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yst.pojo.ItemSpecificationExample" resultType="java.lang.Integer" >
+    select count(*) from item_specification
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update item_specification
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.configurationName != null" >
+        configuration_name = #{record.configurationName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.color != null" >
+        color = #{record.color,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fixPrice != null" >
+        fix_price = #{record.fixPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nowPrice != null" >
+        now_price = #{record.nowPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.oilWear != null" >
+        oil_wear = #{record.oilWear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.displacement != null" >
+        displacement = #{record.displacement,jdbcType=DOUBLE},
+      </if>
+      <if test="record.energy != null" >
+        energy = #{record.energy,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatNumber != null" >
+        seat_number = #{record.seatNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.stock != null" >
+        stock = #{record.stock,jdbcType=INTEGER},
+      </if>
+      <if test="record.imgStr != null" >
+        img_str = #{record.imgStr,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update item_specification
+    set id = #{record.id,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=INTEGER},
+      configuration_name = #{record.configurationName,jdbcType=VARCHAR},
+      color = #{record.color,jdbcType=VARCHAR},
+      fix_price = #{record.fixPrice,jdbcType=DECIMAL},
+      now_price = #{record.nowPrice,jdbcType=DECIMAL},
+      oil_wear = #{record.oilWear,jdbcType=VARCHAR},
+      displacement = #{record.displacement,jdbcType=DOUBLE},
+      energy = #{record.energy,jdbcType=INTEGER},
+      seat_number = #{record.seatNumber,jdbcType=INTEGER},
+      stock = #{record.stock,jdbcType=INTEGER},
+      img_str = #{record.imgStr,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update item_specification
+    set id = #{record.id,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=INTEGER},
+      configuration_name = #{record.configurationName,jdbcType=VARCHAR},
+      color = #{record.color,jdbcType=VARCHAR},
+      fix_price = #{record.fixPrice,jdbcType=DECIMAL},
+      now_price = #{record.nowPrice,jdbcType=DECIMAL},
+      oil_wear = #{record.oilWear,jdbcType=VARCHAR},
+      displacement = #{record.displacement,jdbcType=DOUBLE},
+      energy = #{record.energy,jdbcType=INTEGER},
+      seat_number = #{record.seatNumber,jdbcType=INTEGER},
+      stock = #{record.stock,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yst.pojo.ItemSpecification" >
+    update item_specification
+    <set >
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="configurationName != null" >
+        configuration_name = #{configurationName,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="fixPrice != null" >
+        fix_price = #{fixPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="nowPrice != null" >
+        now_price = #{nowPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oilWear != null" >
+        oil_wear = #{oilWear,jdbcType=VARCHAR},
+      </if>
+      <if test="displacement != null" >
+        displacement = #{displacement,jdbcType=DOUBLE},
+      </if>
+      <if test="energy != null" >
+        energy = #{energy,jdbcType=INTEGER},
+      </if>
+      <if test="seatNumber != null" >
+        seat_number = #{seatNumber,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="imgStr != null" >
+        img_str = #{imgStr,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yst.pojo.ItemSpecification" >
+    update item_specification
+    set item_id = #{itemId,jdbcType=INTEGER},
+      configuration_name = #{configurationName,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      fix_price = #{fixPrice,jdbcType=DECIMAL},
+      now_price = #{nowPrice,jdbcType=DECIMAL},
+      oil_wear = #{oilWear,jdbcType=VARCHAR},
+      displacement = #{displacement,jdbcType=DOUBLE},
+      energy = #{energy,jdbcType=INTEGER},
+      seat_number = #{seatNumber,jdbcType=INTEGER},
+      stock = #{stock,jdbcType=INTEGER},
+      img_str = #{imgStr,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yst.pojo.ItemSpecification" >
+    update item_specification
+    set item_id = #{itemId,jdbcType=INTEGER},
+      configuration_name = #{configurationName,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      fix_price = #{fixPrice,jdbcType=DECIMAL},
+      now_price = #{nowPrice,jdbcType=DECIMAL},
+      oil_wear = #{oilWear,jdbcType=VARCHAR},
+      displacement = #{displacement,jdbcType=DOUBLE},
+      energy = #{energy,jdbcType=INTEGER},
+      seat_number = #{seatNumber,jdbcType=INTEGER},
+      stock = #{stock,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

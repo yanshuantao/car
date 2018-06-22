@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yst.mapper.ItemMapper" >
+  <resultMap id="BaseResultMap" type="com.yst.pojo.Item" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="brand_modle_id" property="brandModleId" jdbcType="INTEGER" />
+    <result column="labels" property="labels" jdbcType="VARCHAR" />
+    <result column="property_type" property="propertyType" jdbcType="INTEGER" />
+    <result column="price_high" property="priceHigh" jdbcType="DECIMAL" />
+    <result column="price_low" property="priceLow" jdbcType="DECIMAL" />
+    <result column="is_auto" property="isAuto" jdbcType="BIT" />
+    <result column="is_chinese" property="isChinese" jdbcType="BIT" />
+    <result column="speed_box" property="speedBox" jdbcType="INTEGER" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yst.pojo.Item" extends="BaseResultMap" >
+    <result column="img_str" property="imgStr" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, status, brand_modle_id, labels, property_type, price_high, price_low, is_auto, 
+    is_chinese, speed_box, priority, create_time, stock, country
+  </sql>
+  <sql id="Blob_Column_List" >
+    img_str
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yst.pojo.ItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yst.pojo.ItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yst.pojo.ItemExample" >
+    delete from item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yst.pojo.Item" >
+    insert into item (id, name, status, 
+      brand_modle_id, labels, property_type, 
+      price_high, price_low, is_auto, 
+      is_chinese, speed_box, priority, 
+      create_time, stock, country, 
+      img_str)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{brandModleId,jdbcType=INTEGER}, #{labels,jdbcType=VARCHAR}, #{propertyType,jdbcType=INTEGER}, 
+      #{priceHigh,jdbcType=DECIMAL}, #{priceLow,jdbcType=DECIMAL}, #{isAuto,jdbcType=BIT}, 
+      #{isChinese,jdbcType=BIT}, #{speedBox,jdbcType=INTEGER}, #{priority,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{stock,jdbcType=INTEGER}, #{country,jdbcType=VARCHAR}, 
+      #{imgStr,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yst.pojo.Item" >
+    insert into item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="brandModleId != null" >
+        brand_modle_id,
+      </if>
+      <if test="labels != null" >
+        labels,
+      </if>
+      <if test="propertyType != null" >
+        property_type,
+      </if>
+      <if test="priceHigh != null" >
+        price_high,
+      </if>
+      <if test="priceLow != null" >
+        price_low,
+      </if>
+      <if test="isAuto != null" >
+        is_auto,
+      </if>
+      <if test="isChinese != null" >
+        is_chinese,
+      </if>
+      <if test="speedBox != null" >
+        speed_box,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="imgStr != null" >
+        img_str,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="brandModleId != null" >
+        #{brandModleId,jdbcType=INTEGER},
+      </if>
+      <if test="labels != null" >
+        #{labels,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyType != null" >
+        #{propertyType,jdbcType=INTEGER},
+      </if>
+      <if test="priceHigh != null" >
+        #{priceHigh,jdbcType=DECIMAL},
+      </if>
+      <if test="priceLow != null" >
+        #{priceLow,jdbcType=DECIMAL},
+      </if>
+      <if test="isAuto != null" >
+        #{isAuto,jdbcType=BIT},
+      </if>
+      <if test="isChinese != null" >
+        #{isChinese,jdbcType=BIT},
+      </if>
+      <if test="speedBox != null" >
+        #{speedBox,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="imgStr != null" >
+        #{imgStr,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yst.pojo.ItemExample" resultType="java.lang.Integer" >
+    select count(*) from item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update item
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.brandModleId != null" >
+        brand_modle_id = #{record.brandModleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.labels != null" >
+        labels = #{record.labels,jdbcType=VARCHAR},
+      </if>
+      <if test="record.propertyType != null" >
+        property_type = #{record.propertyType,jdbcType=INTEGER},
+      </if>
+      <if test="record.priceHigh != null" >
+        price_high = #{record.priceHigh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.priceLow != null" >
+        price_low = #{record.priceLow,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isAuto != null" >
+        is_auto = #{record.isAuto,jdbcType=BIT},
+      </if>
+      <if test="record.isChinese != null" >
+        is_chinese = #{record.isChinese,jdbcType=BIT},
+      </if>
+      <if test="record.speedBox != null" >
+        speed_box = #{record.speedBox,jdbcType=INTEGER},
+      </if>
+      <if test="record.priority != null" >
+        priority = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stock != null" >
+        stock = #{record.stock,jdbcType=INTEGER},
+      </if>
+      <if test="record.country != null" >
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imgStr != null" >
+        img_str = #{record.imgStr,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update item
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      brand_modle_id = #{record.brandModleId,jdbcType=INTEGER},
+      labels = #{record.labels,jdbcType=VARCHAR},
+      property_type = #{record.propertyType,jdbcType=INTEGER},
+      price_high = #{record.priceHigh,jdbcType=DECIMAL},
+      price_low = #{record.priceLow,jdbcType=DECIMAL},
+      is_auto = #{record.isAuto,jdbcType=BIT},
+      is_chinese = #{record.isChinese,jdbcType=BIT},
+      speed_box = #{record.speedBox,jdbcType=INTEGER},
+      priority = #{record.priority,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      stock = #{record.stock,jdbcType=INTEGER},
+      country = #{record.country,jdbcType=VARCHAR},
+      img_str = #{record.imgStr,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update item
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      brand_modle_id = #{record.brandModleId,jdbcType=INTEGER},
+      labels = #{record.labels,jdbcType=VARCHAR},
+      property_type = #{record.propertyType,jdbcType=INTEGER},
+      price_high = #{record.priceHigh,jdbcType=DECIMAL},
+      price_low = #{record.priceLow,jdbcType=DECIMAL},
+      is_auto = #{record.isAuto,jdbcType=BIT},
+      is_chinese = #{record.isChinese,jdbcType=BIT},
+      speed_box = #{record.speedBox,jdbcType=INTEGER},
+      priority = #{record.priority,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      stock = #{record.stock,jdbcType=INTEGER},
+      country = #{record.country,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yst.pojo.Item" >
+    update item
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="brandModleId != null" >
+        brand_modle_id = #{brandModleId,jdbcType=INTEGER},
+      </if>
+      <if test="labels != null" >
+        labels = #{labels,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyType != null" >
+        property_type = #{propertyType,jdbcType=INTEGER},
+      </if>
+      <if test="priceHigh != null" >
+        price_high = #{priceHigh,jdbcType=DECIMAL},
+      </if>
+      <if test="priceLow != null" >
+        price_low = #{priceLow,jdbcType=DECIMAL},
+      </if>
+      <if test="isAuto != null" >
+        is_auto = #{isAuto,jdbcType=BIT},
+      </if>
+      <if test="isChinese != null" >
+        is_chinese = #{isChinese,jdbcType=BIT},
+      </if>
+      <if test="speedBox != null" >
+        speed_box = #{speedBox,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="imgStr != null" >
+        img_str = #{imgStr,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yst.pojo.Item" >
+    update item
+    set name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      brand_modle_id = #{brandModleId,jdbcType=INTEGER},
+      labels = #{labels,jdbcType=VARCHAR},
+      property_type = #{propertyType,jdbcType=INTEGER},
+      price_high = #{priceHigh,jdbcType=DECIMAL},
+      price_low = #{priceLow,jdbcType=DECIMAL},
+      is_auto = #{isAuto,jdbcType=BIT},
+      is_chinese = #{isChinese,jdbcType=BIT},
+      speed_box = #{speedBox,jdbcType=INTEGER},
+      priority = #{priority,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      stock = #{stock,jdbcType=INTEGER},
+      country = #{country,jdbcType=VARCHAR},
+      img_str = #{imgStr,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yst.pojo.Item" >
+    update item
+    set name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      brand_modle_id = #{brandModleId,jdbcType=INTEGER},
+      labels = #{labels,jdbcType=VARCHAR},
+      property_type = #{propertyType,jdbcType=INTEGER},
+      price_high = #{priceHigh,jdbcType=DECIMAL},
+      price_low = #{priceLow,jdbcType=DECIMAL},
+      is_auto = #{isAuto,jdbcType=BIT},
+      is_chinese = #{isChinese,jdbcType=BIT},
+      speed_box = #{speedBox,jdbcType=INTEGER},
+      priority = #{priority,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      stock = #{stock,jdbcType=INTEGER},
+      country = #{country,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
