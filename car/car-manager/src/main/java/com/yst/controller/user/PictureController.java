@@ -46,12 +46,12 @@ public class PictureController {
 			String newFileName = IDUtils.createID()+extName;
 			
 			//ftp上传
-			FtpManager.uploadFile(url, port, username, password, path, newFileName, uploadFile.getInputStream());
+			String resultUrl = FtpManager.uploadFile(url, port, username, password, path, newFileName, uploadFile.getInputStream());
 			
 			//响应上传图片的url
 			Map result = new HashMap<>();
 			result.put("error", 0);
-			result.put("url", url);
+			result.put("url", resultUrl);
 			return JsonUtils.objectToJson(result);
 		} catch (Exception e) {
 			e.printStackTrace();

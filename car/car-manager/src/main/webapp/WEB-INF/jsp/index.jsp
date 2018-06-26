@@ -12,6 +12,9 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-easyui-1.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+	var bathPath="<%=request.getContextPath()%>";
+</script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/common.js"></script>
 <style type="text/css">
 	.content {
