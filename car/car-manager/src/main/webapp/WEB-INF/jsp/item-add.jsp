@@ -17,20 +17,6 @@
 	            <td><input class="easyui-textbox" type="text" name="name" data-options="required:true" style="width: 280px;"></input></td>
 	        </tr>
 	        <tr>
-	            <td>商品卖点:</td>
-	            <td><input class="easyui-textbox" name="sellPoint" data-options="multiline:true,validType:'length[0,150]'" style="height:60px;width: 280px;"></input></td>
-	        </tr>
-	        <tr>
-	            <td>商品价格:</td>
-	            <td><input class="easyui-numberbox" type="text" name="priceView" data-options="min:1,max:99999999,precision:2,required:true" />
-	            	<input type="hidden" name="price"/>
-	            </td>
-	        </tr>
-	        <tr>
-	            <td>库存数量:</td>
-	            <td><input class="easyui-numberbox" type="text" name="num" data-options="min:1,max:99999999,precision:0,required:true" /></td>
-	        </tr>
-	        <tr>
 	            <td>商品图片:</td>
 	            <td>
 	            	 <a href="javascript:void(0)" class="easyui-linkbutton picFileUpload">上传图片</a>
@@ -38,26 +24,60 @@
 	            </td>
 	        </tr>
 	        <tr>
+	            <td>商品标签:</td>
+	            <td>
+	            	<ul id="lableUl"></ul>
+				</td>
+	        </tr>
+	        <tr>
+	        	<td></td>
+	            <td><input type="button" value="添加标签" onclick="openNew();" class="btn1"/></td>
+	        </tr>
+	        <tr>
 	            <td>商品描述:</td>
 	            <td>
 	                <textarea style="width:800px;height:300px;visibility:hidden;" name="desc"></textarea>
 	            </td>
 	        </tr>
-	        <tr class="params hide">
+	        <tr class="params">
 	        	<td>商品规格:</td>
 	        	<td>
-	        		
+	        		<input type="button" value="添加规格" class="btn1" onclick="addSpec22();"/>
+	        	</td>
+	        	
+	        </tr>
+	        <tr>
+	        	<td colspan="5">
+	        		<div id="specDiv">
+			        	<ul class="ul1">
+			        		<li>配置名称:<input type="text" class="easyui-textbox"/></li>
+			        		<li>建议价格:<input type="text" class="easyui-textbox"/></li>
+			        		<li>实际价格：<input type="text" class="easyui-textbox"/></li>
+                 			<li>油耗：<input type="text" class="easyui-textbox"/></li>
+                 			<li>排量：<input type="text" class="easyui-textbox"/></li>
+                 			<li>能源类型：<input type="text" class="easyui-textbox"/></li>
+                 			<li>座位数：<input type="text" class="easyui-textbox"/></li>
+                 			<li>库存数：<input type="text" class="easyui-textbox"/></li>
+			        		<li>
+			        			<a href="javascript:void(0)" class="easyui-linkbutton picFileUpload">上传图片</a>
+	                 			<input type="hidden" name="image"/>
+                 			</li>
+			        	</ul>
+	        		</div>
 	        	</td>
 	        </tr>
 	    </table>
 	    <input type="hidden" name="itemParams"/>
 	</form>
 	<div style="padding:5px">
-	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
-	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a>
+		<input type="button" value="提交" onclick="submitForm()" class="btn1">
+		<input type="reset" value="重置" onclick="clearForm()" class="btn1">
 	</div>
+	<div id="dd"></div>
 </div>
 <script type="text/javascript">
+
+	var specStr="<ul><li>商品价格:</li><li>商品价格</li><li>商品价格</li><li>商品价格</li></ul>";
 	var itemAddEditor ;
 	//页面初始化完毕后执行此方法
 	$(function(){
@@ -67,8 +87,12 @@
 		TAOTAO.init({fun:function(node){
 			//根据商品的分类id取商品 的规格模板，生成规格信息。第四天内容。
 			//TAOTAO.changeItemParam(node, "itemAddForm");
-		}});
+		}},'11');
+
 	});
+	function addSpec22(){
+		$("#specDiv").append(specStr);
+	}
 	//提交表单
 	function submitForm(){
 		//有效性验证
@@ -80,32 +104,6 @@
 		$("#itemAddForm [name=price]").val(eval($("#itemAddForm [name=priceView]").val()) * 100);
 		//同步文本框中的商品描述
 		itemAddEditor.sync();
-		//取商品的规格
-		/*
-		var paramJson = [];
-		$("#itemAddForm .params li").each(function(i,e){
-			var trs = $(e).find("tr");
-			var group = trs.eq(0).text();
-			var ps = [];
-			for(var i = 1;i<trs.length;i++){
-				var tr = trs.eq(i);
-				ps.push({
-					"k" : $.trim(tr.find("td").eq(0).find("span").text()),
-					"v" : $.trim(tr.find("input").val())
-				});
-			}
-			paramJson.push({
-				"group" : group,
-				"params": ps
-			});
-		});
-		//把json对象转换成字符串
-		paramJson = JSON.stringify(paramJson);
-		$("#itemAddForm [name=itemParams]").val(paramJson);
-		*/
-		//ajax的post方式提交表单
-		//$("#itemAddForm").serialize()将表单序列号为key-value形式的字符串
-		alert($("#itemAddForm").serialize());
 		$.post("/item/save",$("#itemAddForm").serialize(), function(data){
 			if(data.status == 200){
 				$.messager.alert('提示','新增商品成功!');
@@ -117,4 +115,56 @@
 		$('#itemAddForm').form('reset');
 		itemAddEditor.html('');
 	}
+	//选择标签后父页面回调方法
+	function fun1(lableIdStr,lableNameStr){
+		var idArray=new Array();
+		var nameArray=new Array();
+		idArray=lableIdStr.split(',');
+		nameArray=lableNameStr.split(',');
+		for(var i=0;i<idArray.length;i++){
+    		var id = idArray[i];
+    		var name="";
+    		if(nameArray.length>i){
+    			name=nameArray[i];
+    		}
+    		var oldIds=document.getElementsByName('labelId');
+   			var addFlag=true;
+   			for(var j=0;j<oldIds.length;j++){
+   				var oldId=oldIds[j].value;
+				if(oldId==id){
+					addFlag=false;
+					break;
+				}
+   			}
+   			if(addFlag){
+				var str='<li class="proMark_li02 radius3 fl" style="margin-bottom:10px;">'+
+					'<span class="proMark_span01 fl" style="margin:0px 10px 0px;">'+name+'</span>'+
+					'<input type="hidden" name="labelId" value="'+id+'">'+
+					'<input type="hidden" name="labelname" value="'+name+'">'+
+					'<img class="proMark_span02 fr" src="<%=request.getContextPath()%>/images/bookMarkCloseBtn.png">'+
+					'<div class="clear"></div>'+
+					'</li>';
+				$("#lableUl").append(str);
+   			}
+    		
+    	}
+	}
+	//打开选择标签窗口
+	function openNew(){
+		var basePath = "<%=request.getContextPath()%>";
+		$('#dd').dialog({
+            width: 1000,
+           	height: 550,
+           	title:'选择标签',
+           	closed: false,
+        	cache: false,
+          	collapsible:true,
+          	href: basePath+'/lable/select.action',
+           	modal: true
+      });
+	}
+	//删除标签
+	$("#lableUl").on("click",".proMark_span02",function() {
+		$(this).parent().remove();
+	});
 </script>

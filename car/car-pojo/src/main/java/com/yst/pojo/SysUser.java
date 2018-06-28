@@ -1,7 +1,14 @@
 package com.yst.pojo;
 
-public class SysUser {
-    private Integer id;
+import java.io.Serializable;
+
+public class SysUser implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -677000183131627983L;
+
+	private Integer id;
 
     private String uname;
 

@@ -56,7 +56,8 @@ var TT = TAOTAO = {
         }
     },
     
-    init : function(data){
+    init : function(data,id){
+    	alert(id);
     	// 初始化图片上传组件
     	this.initPicUpload(data);
     	// 初始化选择类目组件

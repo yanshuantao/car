@@ -1,5 +1,7 @@
 package com.yst.controller.user;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,12 +38,16 @@ public class SysUserController {
 		mv.setViewName("login");
 		return mv;
 	}
+	@SuppressWarnings("unused")
 	@RequestMapping(value="/loginDo.action",method=RequestMethod.POST)
 	@ResponseBody
-	public JsonResult loginDo(@RequestParam("username")  String username,@RequestParam  String password){
+	public JsonResult loginDo(@RequestParam("username")  String username,@RequestParam  String password,HttpSession session ){
 		JsonResult result=new JsonResult();
-		int loginCode = userService.loginDo(username, password);
-		if(loginCode!=0){
+		SysUser userInfo = userService.loginDo(username, password);
+		userInfo.setPwd("");
+		if(userInfo!=null){
+			session.setAttribute("userInfo", userInfo);
+		}else{
 			result.setCode(0001);
 			result.setResultStr("用户名密码错误");
 		}

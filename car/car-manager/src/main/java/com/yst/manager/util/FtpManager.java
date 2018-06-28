@@ -1,5 +1,7 @@
 package com.yst.manager.util;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -26,7 +28,7 @@ public class FtpManager {
 		return instance;
 	}  
 	
-	public static String uploadFile(String url,int port,String username, String password, String path, String filename, InputStream input) {
+	public static String uploadFile(String url,int port,String username, String password, String serverPath,String itemImgPath,String httpPath, String filename, InputStream input) {
         String result="";
 		FTPClient ftp = new FTPClient();
         try {
@@ -39,12 +41,20 @@ public class FtpManager {
                 ftp.disconnect();
                 return result;
             }
-            ftp.changeWorkingDirectory(path);
+            if(!CreateDirecroty(itemImgPath + filename,ftp)) {
+            	return null;
+            }
+            ftp.changeWorkingDirectory(serverPath+itemImgPath);
+            ftp.setBufferSize(1024); 
+            ftp.setControlEncoding("GBK"); 
+            //设置文件类型（二进制） 
+            ftp.setFileType(FTPClient.BINARY_FILE_TYPE); 
             ftp.storeFile(filename, input);         
               
             input.close();
             ftp.logout();
-            result="http://"+url+path+filename;
+            result="http://"+url+httpPath+itemImgPath+filename;
+            System.out.println("path==================="+result);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -57,7 +67,46 @@ public class FtpManager {
         }
         return result;
     }
-	
+	 /**
+	    * 递归创建远程服务器目录
+	    * @param remote  远程服务器文件绝对路径
+	    * @return 目录创建是否成功
+	    * @throws IOException
+	    */
+	    public static boolean CreateDirecroty(String remote,FTPClient ftpClient) throws IOException {
+	        boolean success = true;
+	        String directory = remote.substring(0, remote.lastIndexOf("/") + 1);
+	        // 如果远程目录不存在，则递归创建远程服务器目录
+	        if (!directory.equalsIgnoreCase("/") && !ftpClient.changeWorkingDirectory(new String(directory))) {
+	        	int start = 0;
+	            int end = 0;
+	            if (directory.startsWith("/")) {
+	                start = 1;
+	            } else {
+	                start = 0;
+	            }
+	            end = directory.indexOf("/", start);
+	            while (true) {
+	                String subDirectory = new String(remote.substring(start, end));
+	                if (!ftpClient.changeWorkingDirectory(subDirectory)) {
+	                    if (ftpClient.makeDirectory(subDirectory)) {
+	                    	ftpClient.changeWorkingDirectory(subDirectory);
+	                    } else {
+	                        System.out.println("创建目录失败");
+	                        success = false;
+	                        return success;
+	                    }
+	                }
+	                start = end + 1;
+	                end = directory.indexOf("/", start);
+	                // 检查所有目录是否创建完毕
+	                if (end <= start) {
+	                    break;
+	                }
+	            }
+	        }
+	        return success;
+	    }
 	
 	/**
 	 * 登录

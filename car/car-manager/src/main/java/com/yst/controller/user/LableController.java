@@ -30,7 +30,8 @@ public class LableController {
 	
 	@RequestMapping("/lable/list.action")
 	@ResponseBody
-	public EasyUIDataGridResult getLableList(Integer page, Integer rows){
+	public EasyUIDataGridResult getLableList(@RequestParam (value="page", defaultValue="0") Integer page,
+			@RequestParam (value="rows", defaultValue="0")Integer rows){
 		EasyUIDataGridResult result = lableService.getLabelList(page, rows);
 		return result;
 	}
@@ -57,5 +58,12 @@ public class LableController {
 	public JsonResult delete( String ids){
 		JsonResult result = lableService.deleteByIds(ids);
 		return result;
+	}
+	@RequestMapping("/lable/select.action")
+	@ResponseBody
+	public ModelAndView select(){
+		ModelAndView modle=new ModelAndView();
+		modle.setViewName("lable-select");
+		return modle;
 	}
 }

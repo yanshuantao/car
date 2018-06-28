@@ -27,7 +27,9 @@ public class LableServiceImpl implements LableService{
 	@Override
 	public EasyUIDataGridResult getLabelList(int page, int rows) {
 		//设置分页信息
-		PageHelper.startPage(page, rows);
+		if(page!=0&&rows!=0){
+			PageHelper.startPage(page, rows);
+		}
 		//执行查询
 		LabelExample example = new LabelExample();
 		List<Label> list = lableMapper.selectByExample(example);

@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService{
 		return userMapper.selectByPrimaryKey(id);
 	}
 	@Override
-	public int loginDo(String username, String pwd) {
+	public SysUser loginDo(String username, String pwd) {
 		SysUserExample example=new SysUserExample();
 		//设置查询条件
 		Criteria criteria = example.createCriteria();
@@ -30,9 +30,9 @@ public class UserServiceImpl implements UserService{
 		criteria.andPwdEqualTo(Md5Util.encode(pwd));
 		List<SysUser> list = userMapper.selectByExample(example);
 		if(list.size()>0){
-			return 0;
+			return list.get(0);
 		}else{
-			return -1;
+			return null;
 		}
 	}
 

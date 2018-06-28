@@ -31,8 +31,13 @@ public class PictureController {
 	private String username;
 	@Value("${ftp.img.password}")
 	private String password;
-	@Value("${ftp.img.path}")
-	private String path;
+	@Value("${ftp.img.serverPath}")
+	private String serverPath;
+	@Value("${ftp.img.itemImgPath}")
+	private String itemImgPath;
+	@Value("${ftp.img.httpPath}")
+	private String httpPath;
+	
 	
 
 	@RequestMapping("/pic/upload")
@@ -43,10 +48,10 @@ public class PictureController {
 			//取扩展名
 			String originalFilename = uploadFile.getOriginalFilename();
 			String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
-			String newFileName = IDUtils.createID()+extName;
+			String newFileName = IDUtils.createID()+"."+extName;
 			
 			//ftp上传
-			String resultUrl = FtpManager.uploadFile(url, port, username, password, path, newFileName, uploadFile.getInputStream());
+			String resultUrl = FtpManager.uploadFile(url, port, username, password, serverPath,itemImgPath,httpPath, newFileName, uploadFile.getInputStream());
 			
 			//响应上传图片的url
 			Map result = new HashMap<>();
