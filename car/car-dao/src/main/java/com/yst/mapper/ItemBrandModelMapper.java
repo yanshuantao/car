@@ -27,4 +27,6 @@ public interface ItemBrandModelMapper {
     int updateByPrimaryKeySelective(ItemBrandModel record);
 
     int updateByPrimaryKey(ItemBrandModel record);
+    
+    String getBrandName(long id);
 }

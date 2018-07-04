@@ -56,15 +56,54 @@ var TT = TAOTAO = {
         }
     },
     
-    init : function(data,id){
-    	alert(id);
+    init : function(data){
     	// 初始化图片上传组件
-    	this.initPicUpload(data);
+    	//this.initPicUpload(data,id);
     	// 初始化选择类目组件
     	this.initItemCat(data);
     },
     // 初始化图片上传组件
-    initPicUpload : function(data){
+    initPicUpload : function(data,specIndex){
+    	$(".picFileUpload"+specIndex).each(function(i,e){
+    		var _ele = $(e);
+    		_ele.siblings("#pics"+specIndex).remove();
+    		_ele.after('\
+    			<div class="pics" id=pics'+specIndex+'>\
+        			<ul></ul>\
+        		</div>');
+    		// 回显图片
+        	if(data && data.pics){
+        		var imgs = data.pics.split(",");
+        		for(var i in imgs){
+        			if($.trim(imgs[i]).length > 0){
+        				_ele.siblings("#pics"+specIndex).find("ul").append("<li><a href='"+imgs[i]+"' target='_blank'><img src='"+imgs[i]+"' width='80' height='50' /></a></li>");
+        			}
+        		}
+        	}
+        	//给“上传图片按钮”绑定click事件
+        	$(e).click(function(){
+        		var form = $(this).parentsUntil("form").parent("form");
+        		//打开图片上传窗口
+        		KindEditor.editor(TT.kingEditorParams).loadPlugin('multiimage',function(){
+        			var editor = this;
+        			editor.plugin.multiImageDialog({
+						clickFn : function(urlList) {
+							var imgArray = [];
+							KindEditor.each(urlList, function(i, data) {
+								imgArray.push(data.url);
+								form.find("#pics"+specIndex+" ul").append("<li><a href='"+data.url+"' target='_blank'><img src='"+data.url+"' width='80' height='50' /></a></li>");
+							});
+							form.find("[name='specModel.imgStr']").val(imgArray.join(";"));
+							editor.hideDialog();
+						}
+					});
+        		});
+        	});
+    	});
+    },
+    
+ // 初始化图片上传组件
+    initPicUpload2 : function(data){
     	$(".picFileUpload").each(function(i,e){
     		var _ele = $(e);
     		_ele.siblings("div.pics").remove();
@@ -129,7 +168,7 @@ var TT = TAOTAO = {
     			    		onClick : function(node){
     			    			if($(this).tree("isLeaf",node.target)){
     			    				// 填写到cid中
-    			    				_ele.parent().find("[name=cid]").val(node.id);
+    			    				_ele.parent().find("[name='item.brandModleId']").val(node.id);
     			    				_ele.next().text(node.text).attr("cid",node.id);
     			    				$(_win).window('close');
     			    				if(data && data.fun){

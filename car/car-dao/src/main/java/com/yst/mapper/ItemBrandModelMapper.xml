@@ -255,4 +255,9 @@
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  
+  <select id="getBrandName" parameterType="java.lang.Long" resultType="java.lang.String">
+  		select name from item_brand_model where id=(select parent_id from item_brand_model t1 where t1.id=#{id,jdbcType=BIGINT})
+  </select>
 </mapper>

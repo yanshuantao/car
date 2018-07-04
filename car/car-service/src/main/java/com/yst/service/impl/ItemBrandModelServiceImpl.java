@@ -44,4 +44,14 @@ public class ItemBrandModelServiceImpl implements ItemBrandModelService{
 		return resultList;
 	}
 
+	@Override
+	public String getBrandName(long id) {
+		return mapper.getBrandName(id);
+	}
+
+	@Override
+	public ItemBrandModel selectByPrimaryKey(long id) {
+		return mapper.selectByPrimaryKey(id);
+	}
+
 }

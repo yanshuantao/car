@@ -148,7 +148,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{stock,jdbcType=INTEGER}, #{country,jdbcType=VARCHAR}, 
       #{imgStr,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.yst.pojo.Item" >
+  <insert id="insertSelective" parameterType="com.yst.pojo.Item" useGeneratedKeys="true" keyProperty="id">
     insert into item
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -187,9 +187,9 @@
       <if test="priority != null" >
         priority,
       </if>
-      <if test="createTime != null" >
+      <!-- <if test="createTime != null" > -->
         create_time,
-      </if>
+      <!-- </if> -->
       <if test="stock != null" >
         stock,
       </if>
@@ -237,9 +237,9 @@
       <if test="priority != null" >
         #{priority,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
+      <!-- <if test="createTime != null" > -->
+        #{now(),jdbcType=TIMESTAMP},
+      <!-- </if> -->
       <if test="stock != null" >
         #{stock,jdbcType=INTEGER},
       </if>

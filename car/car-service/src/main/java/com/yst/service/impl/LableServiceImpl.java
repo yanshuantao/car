@@ -74,5 +74,19 @@ public class LableServiceImpl implements LableService{
 		}
 		return result;
 	}
+	@Override
+	public String getNameStrByIdStr(String ids) {
+		StringBuffer buffer=new StringBuffer();
+		if(StringUtils.isNoneEmpty(ids)){
+			String idArray[]=ids.split(",");
+			List<Label> list=lableMapper.getListByIdStr(idArray);
+			for(int i=0;i<list.size()-1;i++){
+				Label label =list.get(i);
+				buffer.append(label.getName()+",");
+			}
+			buffer.append(list.get(list.size()-1).getName());
+		}
+		return buffer.toString();
+	}
 
 }

@@ -161,4 +161,14 @@
     set name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  
+  <select id="getListByIdStr" resultType="com.yst.pojo.Label" parameterType="java.lang.String">
+  	select id,name from label where id in
+  	<foreach collection="array" item="idArray" index="index"
+                open="(" close=")" separator=",">
+                ${idArray}
+    </foreach>
+  </select>
+  
 </mapper>

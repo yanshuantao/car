@@ -1,34 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
- 
-<form name="searchform" method="post" action="" id ="searchform">
-    <td width="70" height="30"><strong>专家检索：</strong></td>
-    <td height="30">
-        <input type="text" name="keyword" size=20 >
-        <select name="search_type" id="search_type" >
-            <option value="-1">请选择搜索类型</option>
-            <option value="be_name" >按专家姓名</option>
-            <option value="be_intro">按专家简介</option>
-        </select>
-        <select name="search_dept" id="search_dept">
-            <option value="-1">请选择所属科室</option>
-        </select>
-        <a id="submit_search">搜索</a>
-    </td>
-  </form>
+ <div class="headDiv">
+	 <form name="searchform" method="post" action="" id ="searchform">
+	 	<ul class="conditionUl">
+	 		<li>专家检索：</li>
+	 		<li></li>
+	 		<li></li>
+	 		<li></li>
+	 		<li></li>
+	 	</ul>
+	    <td width="70" height="30"><strong>专家检索：</strong></td>
+	    <td height="30">
+	        <input type="text" name="keyword" size=20 >
+	        <select name="search_type" id="search_type" >
+	            <option value="-1">请选择搜索类型</option>
+	            <option value="be_name" >按专家姓名</option>
+	            <option value="be_intro">按专家简介</option>
+	        </select>
+	        <select name="search_dept" id="search_dept">
+	            <option value="-1">请选择所属科室</option>
+	        </select>
+	        <a id="submit_search">搜索</a>
+	    </td>
+	  </form>
+ </div>
 <table class="easyui-datagrid" id="itemList" title="商品列表" 
        data-options="singleSelect:false,collapsible:true,pagination:true,url:'<%=request.getContextPath()%>/item/list.action',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
         	<th data-options="field:'ck',checkbox:true"></th>
-        	<th data-options="field:'id',width:60">商品ID</th>
             <th data-options="field:'title',width:200">商品标题</th>
-            <th data-options="field:'cid',width:100">叶子类目</th>
-            <th data-options="field:'sellPoint',width:100">卖点</th>
-            <th data-options="field:'price',width:70,align:'right',formatter:TAOTAO.formatPrice">价格</th>
+            <th data-options="field:'sellPoint',width:100">品牌型号</th>
+            <th data-options="field:'cid',width:100">车型类别</th>
+            <th data-options="field:'price',width:70,align:'right',formatter:TAOTAO.formatPrice">最低价格</th>
+            <th data-options="field:'price',width:70,align:'right',formatter:TAOTAO.formatPrice">最高价格</th>
+            <th data-options="field:'cid',width:100">生产国</th>
             <th data-options="field:'num',width:70,align:'right'">库存数量</th>
+            <th data-options="field:'cid',width:100">排序优先级</th>
             <th data-options="field:'status',width:60,align:'center',formatter:TAOTAO.formatItemStatus">状态</th>
             <th data-options="field:'created',width:130,align:'center',formatter:TAOTAO.formatDateTime">创建日期</th>
-            <th data-options="field:'updated',width:130,align:'center',formatter:TAOTAO.formatDateTime">更新日期</th>
         </tr>
     </thead>
 </table>

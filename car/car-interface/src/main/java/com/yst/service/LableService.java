@@ -12,6 +12,8 @@ public interface LableService{
 	
 	JsonResult deleteByIds(String ids);
 	
+	String getNameStrByIdStr(String ids);
+	
 	/*@Override
 	public EasyUIDataGridResult getItemList(int page, int rows) {
 		//设置分页信息

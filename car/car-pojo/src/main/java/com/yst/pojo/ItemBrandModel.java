@@ -1,9 +1,15 @@
 package com.yst.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ItemBrandModel {
-    private Long id;
+public class ItemBrandModel implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6911259432301890543L;
+
+	private Long id;
 
     private Long parentId;
 
