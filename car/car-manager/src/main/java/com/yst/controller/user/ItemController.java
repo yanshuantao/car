@@ -2,30 +2,37 @@ package com.yst.controller.user;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yst.common.pojo.EasyUIDataGridResult;
+import com.yst.common.pojo.JsonResult;
 import com.yst.model.ItemModel;
 import com.yst.model.ItemSpecificationModel;
 import com.yst.pojo.Item;
 import com.yst.pojo.ItemDesc;
 import com.yst.pojo.ItemSpecification;
 import com.yst.service.ItemService;
+import com.yst.service.ItemSpecService;
 
 @Controller
 public class ItemController {
 	
 	@Autowired
 	private ItemService itemService;
-	
+	@Autowired
+	private ItemSpecService itemSpecService;
 	
 	@RequestMapping("/item/start.action")
 	@ResponseBody
@@ -63,8 +70,46 @@ public class ItemController {
 		modle.setViewName("item-add");
 		return modle;
 	}
-	
-	
+	@RequestMapping(value="/item/specDetail/{itemId}.action",method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView specDetail(@PathVariable("itemId") Integer itemId){
+		ModelAndView modle=new ModelAndView();
+		List<ItemSpecification> specList = itemSpecService.getSpecListByItemId(itemId);
+		ItemDesc itemDesc = itemService.getDescByItemId(itemId);
+		modle.addObject("specList",specList);
+		modle.addObject("itemDesc",itemDesc);
+		modle.setViewName("item-specDetail");
+		return modle;
+	}
+	@RequestMapping(value="/item/enable.action",method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResult enable(String ids){
+		JsonResult result = new JsonResult();
+		try {
+			itemService.enable(ids);
+		} catch (Exception e) {
+			result.setCode(0001);
+		}
+		return result;
+	}
+	/**
+	 * 禁用
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping(value="/item/disable.action",method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResult disable(String ids){
+		JsonResult result = new JsonResult();
+		try {
+			itemService.disable(ids);
+		} catch (Exception e) {
+			result.setCode(0001);
+		}
+		return result;
+	}
+
+
 	public List<ItemSpecification> convertSpecModel2SpecList(ItemSpecificationModel specModel){
 		List<ItemSpecification> list = new ArrayList<ItemSpecification>();
 		String specNameStr = specModel.getConfigurationName();

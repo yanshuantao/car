@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
- <div class="headDiv">
+ <!-- <div class="headDiv">
 	 <form name="searchform" method="post" action="" id ="searchform">
 	 	<ul class="conditionUl">
 	 		<li>专家检索：</li>
@@ -22,22 +22,25 @@
 	        <a id="submit_search">搜索</a>
 	    </td>
 	  </form>
- </div>
+ </div> -->
 <table class="easyui-datagrid" id="itemList" title="商品列表" 
        data-options="singleSelect:false,collapsible:true,pagination:true,url:'<%=request.getContextPath()%>/item/list.action',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
-        	<th data-options="field:'ck',checkbox:true"></th>
-            <th data-options="field:'title',width:200">商品标题</th>
-            <th data-options="field:'sellPoint',width:100">品牌型号</th>
-            <th data-options="field:'cid',width:100">车型类别</th>
-            <th data-options="field:'price',width:70,align:'right',formatter:TAOTAO.formatPrice">最低价格</th>
-            <th data-options="field:'price',width:70,align:'right',formatter:TAOTAO.formatPrice">最高价格</th>
-            <th data-options="field:'cid',width:100">生产国</th>
-            <th data-options="field:'num',width:70,align:'right'">库存数量</th>
-            <th data-options="field:'cid',width:100">排序优先级</th>
-            <th data-options="field:'status',width:60,align:'center',formatter:TAOTAO.formatItemStatus">状态</th>
-            <th data-options="field:'created',width:130,align:'center',formatter:TAOTAO.formatDateTime">创建日期</th>
+        	<th data-options="field:'id',checkbox:true"></th>
+            <th data-options="field:'item.name'">商品标题</th>
+            <th data-options="field:'brandName'">品牌</th>
+            <th data-options="field:'modelName'">型号</th>
+            <th data-options="field:'item.propertyType'">车型类别</th>
+            <th data-options="field:'item.priceLow',align:'right'">最低价格</th>
+            <th data-options="field:'item.priceHigh',align:'right'">最高价格</th>
+            <th data-options="field:'item.country'">生产国</th>
+            <th data-options="field:'item.stock'">库存数量</th>
+            <th data-options="field:'labelName'">标签</th>
+            <th data-options="field:'item.priority'">排序优先级</th>
+            <th data-options="field:'item.status',align:'center',formatter:TAOTAO.formatItemStatus">状态</th>
+            <th data-options="field:'item.createTime',align:'center',formatter:TAOTAO.formatDateTime">创建日期</th>
+            <th data-options="field:'item.id',align:'right',formatter:formatOper">查看规格</th>
         </tr>
     </thead>
 </table>
@@ -45,16 +48,32 @@
 </div>
 <script>
 
+function formatOper(val,row,index){
+	return '<input type="button" value="查看规格" onclick="viewSpec('+val+');"  class="btn1"/>';
+}
+function viewSpec(itemId){
+	//$(".tree-title:contains('商品规格')").parent().click();
+	addTab('商品规格','<%=request.getContextPath()%>/item/specDetail/'+itemId+'.action');
+}
+    function addTab(title, url){
+		$('#tabs').tabs('add',{
+			title:title,
+			href:url,
+			closable:true
+		});
+}
+
     function getSelectionsIds(){
     	var itemList = $("#itemList");
     	var sels = itemList.datagrid("getSelections");
     	var ids = [];
     	for(var i in sels){
-    		ids.push(sels[i].id);
+    		ids.push(sels[i].item.id);
     	}
     	ids = ids.join(",");
     	return ids;
     }
+    
     
     var toolbar = [{
         text:'新增',
@@ -62,97 +81,8 @@
         handler:function(){
         	$(".tree-title:contains('新增商品')").parent().click();
         }
-    },{
-        text:'编辑',
-        iconCls:'icon-edit',
-        handler:function(){
-        	var ids = getSelectionsIds();
-        	if(ids.length == 0){
-        		$.messager.alert('提示','必须选择一个商品才能编辑!');
-        		return ;
-        	}
-        	if(ids.indexOf(',') > 0){
-        		$.messager.alert('提示','只能选择一个商品!');
-        		return ;
-        	}
-        	
-        	$("#itemEditWindow").window({
-        		onLoad :function(){
-        			//回显数据
-        			var data = $("#itemList").datagrid("getSelections")[0];
-        			data.priceView = TAOTAO.formatPrice(data.price);
-        			$("#itemeEditForm").form("load",data);
-        			
-        			// 加载商品描述
-        			$.getJSON('/rest/item/query/item/desc/'+data.id,function(_data){
-        				if(_data.status == 200){
-        					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
-        					itemEditEditor.html(_data.data.itemDesc);
-        				}
-        			});
-        			
-        			//加载商品规格
-        			$.getJSON('/rest/item/param/item/query/'+data.id,function(_data){
-        				if(_data && _data.status == 200 && _data.data && _data.data.paramData){
-        					$("#itemeEditForm .params").show();
-        					$("#itemeEditForm [name=itemParams]").val(_data.data.paramData);
-        					$("#itemeEditForm [name=itemParamId]").val(_data.data.id);
-        					
-        					//回显商品规格
-        					 var paramData = JSON.parse(_data.data.paramData);
-        					
-        					 var html = "<ul>";
-        					 for(var i in paramData){
-        						 var pd = paramData[i];
-        						 html+="<li><table>";
-        						 html+="<tr><td colspan=\"2\" class=\"group\">"+pd.group+"</td></tr>";
-        						 
-        						 for(var j in pd.params){
-        							 var ps = pd.params[j];
-        							 html+="<tr><td class=\"param\"><span>"+ps.k+"</span>: </td><td><input autocomplete=\"off\" type=\"text\" value='"+ps.v+"'/></td></tr>";
-        						 }
-        						 
-        						 html+="</li></table>";
-        					 }
-        					 html+= "</ul>";
-        					 $("#itemeEditForm .params td").eq(1).html(html);
-        				}
-        			});
-        			
-        			TAOTAO.init({
-        				"pics" : data.image,
-        				"cid" : data.cid,
-        				fun:function(node){
-        					TAOTAO.changeItemParam(node, "itemeEditForm");
-        				}
-        			});
-        		}
-        	}).window("open");
-        }
-    },{
-        text:'删除',
-        iconCls:'icon-cancel',
-        handler:function(){
-        	var ids = getSelectionsIds();
-        	if(ids.length == 0){
-        		$.messager.alert('提示','未选中商品!');
-        		return ;
-        	}
-        	$.messager.confirm('确认','确定删除ID为 '+ids+' 的商品吗？',function(r){
-        	    if (r){
-        	    	var params = {"ids":ids};
-                	$.post("/rest/item/delete",params, function(data){
-            			if(data.status == 200){
-            				$.messager.alert('提示','删除商品成功!',undefined,function(){
-            					$("#itemList").datagrid("reload");
-            				});
-            			}
-            		});
-        	    }
-        	});
-        }
     },'-',{
-        text:'下架',
+        text:'禁用',
         iconCls:'icon-remove',
         handler:function(){
         	var ids = getSelectionsIds();
@@ -160,21 +90,17 @@
         		$.messager.alert('提示','未选中商品!');
         		return ;
         	}
-        	$.messager.confirm('确认','确定下架ID为 '+ids+' 的商品吗？',function(r){
-        	    if (r){
-        	    	var params = {"ids":ids};
-                	$.post("/rest/item/instock",params, function(data){
-            			if(data.status == 200){
-            				$.messager.alert('提示','下架商品成功!',undefined,function(){
-            					$("#itemList").datagrid("reload");
-            				});
-            			}
-            		});
-        	    }
-        	});
+   	    	var params = {"ids":ids};
+           	$.post("<%=request.getContextPath()%>/item/disable.action",params, function(data){
+       			if(data.code == 0000){
+       				$.messager.alert('提示','禁用商品成功!',undefined,function(){
+       					$("#itemList").datagrid("reload");
+       				});
+       			}
+       		});
         }
     },{
-        text:'上架',
+        text:'启用',
         iconCls:'icon-remove',
         handler:function(){
         	var ids = getSelectionsIds();
@@ -182,18 +108,14 @@
         		$.messager.alert('提示','未选中商品!');
         		return ;
         	}
-        	$.messager.confirm('确认','确定上架ID为 '+ids+' 的商品吗？',function(r){
-        	    if (r){
-        	    	var params = {"ids":ids};
-                	$.post("/rest/item/reshelf",params, function(data){
-            			if(data.status == 200){
-            				$.messager.alert('提示','上架商品成功!',undefined,function(){
-            					$("#itemList").datagrid("reload");
-            				});
-            			}
-            		});
-        	    }
-        	});
+   	    	var params = {"ids":ids};
+           	$.post("<%=request.getContextPath()%>/item/enable.action",params, function(data){
+       			if(data.code == 0000){
+       				$.messager.alert('提示','启用商品成功!',undefined,function(){
+       					$("#itemList").datagrid("reload");
+       				});
+       			}
+       		});
         }
     }];
 </script>

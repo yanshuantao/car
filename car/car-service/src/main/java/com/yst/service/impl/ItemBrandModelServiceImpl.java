@@ -6,6 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.yst.common.pojo.EasyUIDataGridResult;
+import com.yst.common.pojo.EasyUITree;
+import com.yst.common.pojo.EasyUITree2;
 import com.yst.common.pojo.EasyUITreeNode;
 import com.yst.mapper.ItemBrandModelMapper;
 import com.yst.pojo.ItemBrandModel;
@@ -53,5 +57,53 @@ public class ItemBrandModelServiceImpl implements ItemBrandModelService{
 	public ItemBrandModel selectByPrimaryKey(long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
+
+	@Override
+	public EasyUIDataGridResult getAllBrand() {
+		EasyUIDataGridResult result=new EasyUIDataGridResult();
+		ItemBrandModelExample example = new ItemBrandModelExample();
+		List<ItemBrandModel> list=mapper.selectByExample(example);
+		List treeList=new ArrayList();
+		for(ItemBrandModel model:list){
+			if(!model.getIsParent()){
+				EasyUITree2 tree=new EasyUITree2();
+				tree.setName(model.getName());
+				tree.setId(model.getId());
+				tree.set_parentId(model.getParentId());
+				treeList.add(tree);
+
+			}else{
+				EasyUITree tree=new EasyUITree();
+				tree.setName(model.getName());
+				tree.setId(model.getId());
+				tree.setIconCls("icon-ok");
+				treeList.add(tree);
+			}
+		}
+		result.setRows(treeList);
+		return result;
+	}
+
+	@Override
+	public int updateDo(Long id, String name) {
+		int result=0;
+		ItemBrandModelExample example=new ItemBrandModelExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andNameEqualTo(name);
+		List<ItemBrandModel> exsistBrandList=mapper.selectByExample(example);
+		if(exsistBrandList.size()>0){
+			if(exsistBrandList.get(0).getId()!=id){
+				result = -1;
+			}
+		}
+		if(result!=-1){
+			ItemBrandModel brand=new ItemBrandModel();
+			brand.setId(id);
+			brand.setName(name);
+			mapper.updateByPrimaryKeySelective(brand);
+		}
+		return result;
+	}
+	
 
 }

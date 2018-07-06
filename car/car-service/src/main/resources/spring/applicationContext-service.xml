@@ -18,9 +18,11 @@
 		address="127.0.0.1:2181" />
 	<!-- 用dubbo协议在20880端口暴露服务 -->
 	<dubbo:protocol name="dubbo" port="20880" />
+	<dubbo:provider timeout="10000" retries="0"/>
 	<!-- 声明需要暴露的服务接口 -->
 	<dubbo:service interface="com.yst.service.UserService" ref="userServiceImpl" />
 	<dubbo:service interface="com.yst.service.LableService" ref="lableServiceImpl" />
 	<dubbo:service interface="com.yst.service.ItemService" ref="itemServiceImpl" />
 	<dubbo:service interface="com.yst.service.ItemBrandModelService" ref="itemBrandModelServiceImpl" />
+	<dubbo:service interface="com.yst.service.ItemSpecService" ref="itemSpecServiceImpl" />
 </beans>

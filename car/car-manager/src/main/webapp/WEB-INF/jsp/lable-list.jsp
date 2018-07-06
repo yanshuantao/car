@@ -5,26 +5,15 @@
     <thead>
         <tr>
         	<th data-options="field:'id',checkbox:true"></th>
-        	<th data-options="field:'name',width:'120px'">标签ID</th>
-            <th data-options="field:'name',width:'120px'">标签名称</th>
+            <th data-options="field:'name'">标签名称</th>
         </tr>
     </thead>
 </table>
-<div id="itemEditWindow" class="easyui-window" title="编辑标签" data-options="modal:true,closed:true,iconCls:'icon-save',href:'<%=request.getContextPath()%>/lable/edit.action'" style="width:30%;height:30%;padding:10px;">
+<div id="itemEditWindow" class="easyui-window" title="编辑标签" data-options="modal:true,closed:true,iconCls:'icon-save',href:'<%=request.getContextPath()%>/lable/edit.action'" style="width:400px;height:200px;padding:10px;">
 </div>
-<div id="lableAddWindow" class="easyui-window" title="添加标签" data-options="modal:true,closed:true,iconCls:'icon-save',href:'<%=request.getContextPath()%>/lable/add.action'" style="width:30%;height:30%;padding:10px;">
+<div id="lableAddWindow" class="easyui-window" title="添加标签" data-options="modal:true,closed:true,iconCls:'icon-save',href:'<%=request.getContextPath()%>/lable/add.action'" style="width:400px;height:200px;padding:10px;">
 </div>
 <script>
-$(function(){
-	　　//初始加载，表格宽度自适应
-	    $(document).ready(function(){
-	        fitCoulms();
-	    });
-	　　//浏览器窗口大小变化后，表格宽度自适应
-	    $(window).resize(function(){
-	        fitCoulms();
-	    });
-	});
 
 	//表格宽度自适应，这里的#dg是datagrid表格生成的div标签
 	function fitCoulms(){

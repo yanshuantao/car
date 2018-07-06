@@ -12,5 +12,16 @@ public interface ItemService {
 	EasyUIDataGridResult getItemList(int page, int rows);
 	
 	void addItem(Item item,List<ItemSpecification> specList,ItemDesc desc);
+	
+	ItemDesc getDescByItemId(Integer itemId);
+	
+	void enable(String ids);
+	
+	void disable(String ids);
+	
+	void enable(Integer id);
+	
+	void disable(Integer id);
+	
 
 }

@@ -22,6 +22,8 @@
 	<context:component-scan base-package="com.yst.controller" />
 	<!-- 配置资源映射 -->
 	<mvc:resources location="/css/" mapping="/css/**"/>
+	<mvc:resources location="/createActive/" mapping="/createActive/**"/>
+	<mvc:resources location="/jquery-easyui-1.3.3/" mapping="/jquery-easyui-1.3.3/**"/>
 	<mvc:resources location="/js/" mapping="/js/**"/>
 	<mvc:resources location="/images/" mapping="/images/**"/>
 	
@@ -41,5 +43,6 @@
 	<dubbo:reference interface="com.yst.service.UserService" id="userService" />
 	<dubbo:reference interface="com.yst.service.LableService" id="lableService" />
 	<dubbo:reference interface="com.yst.service.ItemService" id="itemService" />
-	<dubbo:reference interface="com.yst.service.ItemBrandModelService" id="itemBrandModelService" />	
+	<dubbo:reference interface="com.yst.service.ItemBrandModelService" id="itemBrandModelService" />
+	<dubbo:reference interface="com.yst.service.ItemSpecService" id="itemSpecService" />	
 </beans>

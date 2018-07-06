@@ -17,6 +17,7 @@ import com.yst.pojo.Item;
 import com.yst.pojo.ItemBrandModel;
 import com.yst.pojo.ItemDesc;
 import com.yst.pojo.ItemExample;
+import com.yst.pojo.ItemExample.Criteria;
 import com.yst.pojo.ItemSpecification;
 import com.yst.pojo.Label;
 import com.yst.service.ItemBrandModelService;
@@ -66,7 +67,7 @@ public class ItemServiceImpl implements ItemService{
 		}
 		
 		//取查询结果
-		PageInfo<ItemResultModel> pageInfo = new PageInfo<ItemResultModel>(resultList);
+		PageInfo<Item> pageInfo = new PageInfo<Item>(itemList);
 		EasyUIDataGridResult result = new EasyUIDataGridResult();
 		result.setRows(resultList);
 		result.setTotal(pageInfo.getTotal());
@@ -84,11 +85,15 @@ public class ItemServiceImpl implements ItemService{
 			BigDecimal min=spec.getNowPrice();
 			BigDecimal max=spec.getNowPrice();
 			for(ItemSpecification specification:specList){
-				if(min.compareTo(specification.getNowPrice())!=-1){
-					min=specification.getNowPrice();
+				if(min!=null){
+					if(min.compareTo(specification.getNowPrice())!=-1){
+						min=specification.getNowPrice();
+					}
 				}
-				if(max.compareTo(specification.getNowPrice())!=1){
-					max = specification.getNowPrice();
+				if(max!=null){
+					if(max.compareTo(specification.getNowPrice())!=1){
+						max = specification.getNowPrice();
+					}
 				}
 				
 			}
@@ -105,6 +110,43 @@ public class ItemServiceImpl implements ItemService{
 		//插入item_desc表
 		desc.setItemId(itemId);
 		ItemDescMapper.insertSelective(desc);
+	}
+
+	@Override
+	public ItemDesc getDescByItemId(Integer itemId) {
+		return ItemDescMapper.selectByPrimaryKey(itemId);
+	}
+
+	@Override
+	public void enable(String ids) {
+		String idArray[] = ids.split(",");
+		for(String idStr:idArray){
+			enable(Integer.valueOf(idStr));
+		}
+	}
+
+	@Override
+	public void disable(String ids) {
+		String idArray[] = ids.split(",");
+		for(String idStr:idArray){
+			disable(Integer.valueOf(idStr));
+		}
+	}
+
+	@Override
+	public void enable(Integer id) {
+		Item item=new Item();
+		item.setId(id);
+		item.setStatus(1);
+		itemMapper.updateByPrimaryKeySelective(item);
+	}
+
+	@Override
+	public void disable(Integer id) {
+		Item item=new Item();
+		item.setId(id);
+		item.setStatus(2);
+		itemMapper.updateByPrimaryKeySelective(item);
 	}
 
 }

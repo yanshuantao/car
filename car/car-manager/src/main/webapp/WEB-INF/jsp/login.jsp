@@ -46,12 +46,11 @@
    					dataType:"json",
    					success: function(data){
 						if(data.code == 0000){
-							$.messager.alert('提示','登录成功');
+				    		window.location.href="${urls}/index.action";
 						}else{
 							$.messager.alert('错误',data.resultStr);
 							return ;
 						}
-		    		window.location.href="${urls}/index.action";
 				},error:function(XMLHttpRequest, textStatus, errorThrown){
 					 // 状态码
                     console.log(XMLHttpRequest.status);

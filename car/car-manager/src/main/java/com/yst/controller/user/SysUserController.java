@@ -60,7 +60,7 @@ public class SysUserController {
 		return model;
 	}
 	
-	@RequestMapping("/item/{itemId}")
+	/*@RequestMapping("/item/{itemId}")
 	@ResponseBody
 	public SysUser getItemById(@PathVariable int userId) {
 		//根据商品id查询商品信息
@@ -68,7 +68,7 @@ public class SysUserController {
 		
 	
 		return user;
-	}
+	}*/
 
 
 }
