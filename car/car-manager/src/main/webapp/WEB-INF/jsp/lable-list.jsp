@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<table class="easyui-datagrid" id="lableList" title="标签列表" 
+<table class="easyui-datagrid" id="lableList" title="标签列表" style="width:600px;" 
        data-options="singleSelect:false,collapsible:true,fitColumns:true,pagination:true,url:'<%=request.getContextPath()%>/lable/list.action',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>

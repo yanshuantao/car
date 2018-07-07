@@ -5,7 +5,7 @@
 	    <table cellpadding="5">
 	        <tr>
 	            <td>标签id:</td>
-	            <td><input class="easyui-textbox" type="text" name="id" data-options="required:true" style="width: 280px;"></input></td>
+	            <td><input class="easyui-textbox" type="text" readonly name="id" data-options="required:true" style="width: 280px;"></input></td>
 	        </tr>
 	        <tr>
 	            <td>标签名称:</td>

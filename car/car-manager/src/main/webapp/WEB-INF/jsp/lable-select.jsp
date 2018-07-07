@@ -19,21 +19,21 @@
 		</table>
 	</div>
 <script>
-function select22(){
-	var ids=getSelectionsIds();
-	var names=getSelectionsNames();
-	if(ids==''){
-		$.messager.alert('提示','至少选择一个标签!');
-		return;
+	function select22(){
+		var ids=getSelectionsIds();
+		var names=getSelectionsNames();
+		if(ids==''){
+			$.messager.alert('提示','至少选择一个标签!');
+			return;
+		}
+		
+		window.parent.window.fun1(ids,names);
+		$('#dd').dialog('close');
+		
 	}
-	
-	window.parent.window.fun1(ids,names);
-	$('#dd').dialog('close');
-	
-}
-function closeMe(){
-	$('#dd').dialog('close');
-}
+	function closeMe(){
+		$('#dd').dialog('close');
+	}
 
 
     function getSelectionsIds(){

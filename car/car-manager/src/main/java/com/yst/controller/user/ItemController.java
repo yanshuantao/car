@@ -58,17 +58,21 @@ public class ItemController {
 	}
 	@RequestMapping("/item/addDo.action")
 	@ResponseBody
-	public ModelAndView addDo(ItemModel model){
+	public JsonResult addDo(ItemModel model){
+		JsonResult result = new JsonResult();
+
 		Item item=model.getItem();
 		ItemSpecificationModel specModel=model.getSpecModel();
 		ItemDesc desc=model.getDesc();
 	    List<ItemSpecification> specList = convertSpecModel2SpecList(specModel);
-		itemService.addItem(item,specList, desc);
+	    try {
+	    	itemService.addItem(item,specList, desc);
+		} catch (Exception e) {
+			result.setCode(0001);
+			result.setResultStr("添加失败！");
+		}
 		
-		
-		ModelAndView modle=new ModelAndView();
-		modle.setViewName("item-add");
-		return modle;
+		return result;
 	}
 	@RequestMapping(value="/item/specDetail/{itemId}.action",method = RequestMethod.GET)
 	@ResponseBody

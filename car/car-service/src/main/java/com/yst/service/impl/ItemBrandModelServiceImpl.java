@@ -85,12 +85,9 @@ public class ItemBrandModelServiceImpl implements ItemBrandModelService{
 	}
 
 	@Override
-	public int updateDo(Long id, String name) {
+	public int updateDo(Long parentId,Long id, String name) {
 		int result=0;
-		ItemBrandModelExample example=new ItemBrandModelExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andNameEqualTo(name);
-		List<ItemBrandModel> exsistBrandList=mapper.selectByExample(example);
+		List<ItemBrandModel> exsistBrandList = getListByName (parentId,name);
 		if(exsistBrandList.size()>0){
 			if(exsistBrandList.get(0).getId()!=id){
 				result = -1;
@@ -101,6 +98,31 @@ public class ItemBrandModelServiceImpl implements ItemBrandModelService{
 			brand.setId(id);
 			brand.setName(name);
 			mapper.updateByPrimaryKeySelective(brand);
+		}
+		return result;
+	}
+	
+	public List<ItemBrandModel> getListByName (long parentId,String name){
+		ItemBrandModelExample example=new ItemBrandModelExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andNameEqualTo(name);
+		criteria.andParentIdEqualTo(parentId);
+		List<ItemBrandModel> exsistBrandList=mapper.selectByExample(example);
+		return exsistBrandList;
+	}
+	@Override
+	public int addModel(Long parentId, String name,boolean isParent) {
+		int result=0;
+		List<ItemBrandModel> list = getListByName (parentId,name);
+		if(list.size()>0){
+			result=-1;
+		}
+		if(result==0){
+			ItemBrandModel model=new ItemBrandModel();
+			model.setIsParent(isParent);
+			model.setName(name);
+			model.setParentId(parentId);
+			mapper.insertSelective(model);
 		}
 		return result;
 	}

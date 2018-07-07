@@ -17,6 +17,10 @@ public interface ItemBrandModelService {
 	
 	EasyUIDataGridResult getAllBrand();
 	
-	int updateDo(Long id,String name);
+	int updateDo(Long parentId,Long id,String name);
+	
+	List<ItemBrandModel> getListByName (long parentId,String name);
+	
+	int addModel(Long id,String name,boolean isParent);
 	
 }

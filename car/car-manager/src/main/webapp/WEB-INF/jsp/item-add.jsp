@@ -152,8 +152,10 @@
 		//同步文本框中的商品描述
 		itemAddEditor.sync();
 		$.post(basePath+"/item/addDo.action",$("#itemAddForm").serialize(), function(data){
-			if(data.status == 200){
+			if(data.code == 0000){
 				$.messager.alert('提示','新增商品成功!');
+			}else{
+				$.messager.alert('提示',data.resultStr);
 			}
 		});
 	}
