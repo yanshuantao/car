@@ -11,6 +11,7 @@
   	<module>car-manager</module>
   	<module>car-pojo</module>
   	<module>car-service</module>
+  	<module>car-web</module>
   </modules>
   
   
