@@ -8,5 +8,6 @@ public interface UserService {
 	
 	SysUser selectByPrimaryKey(int id);
 	
+	int updatePassword(String newPassword,Integer id);
 
 }

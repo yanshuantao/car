@@ -6,7 +6,7 @@
 		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="cancel()">取消编辑</a>
 		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="addModel()">添加型号</a>
 	</div>
-	<table id="tg" class="easyui-treegrid" title="Editable TreeGrid" style="width:700px;height:250px"
+	<table id="tg" class="easyui-treegrid" title="品牌型号列表" style="width:700px;height:250px"
 			data-options="
 				iconCls: 'icon-ok',
 				rownumbers: true,
@@ -35,7 +35,7 @@
 			        </tr>
 			    </table>
 			</form>
-			<div style="padding:5px">
+ 			<div style="padding:5px"> 
 			    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
 			</div>
 		</div>

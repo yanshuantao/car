@@ -38,14 +38,13 @@ public class SysUserController {
 		mv.setViewName("login");
 		return mv;
 	}
-	@SuppressWarnings("unused")
 	@RequestMapping(value="/loginDo.action",method=RequestMethod.POST)
 	@ResponseBody
 	public JsonResult loginDo(@RequestParam("username")  String username,@RequestParam  String password,HttpSession session ){
 		JsonResult result=new JsonResult();
 		SysUser userInfo = userService.loginDo(username, password);
-		userInfo.setPwd("");
 		if(userInfo!=null){
+			userInfo.setPwd("");
 			session.setAttribute("userInfo", userInfo);
 		}else{
 			result.setCode(0001);
@@ -59,6 +58,33 @@ public class SysUserController {
 		model.setViewName("index");
 		return model;
 	}
+	@RequestMapping("/updatePassword.action")
+	public ModelAndView updatePassword(){
+		ModelAndView model = new ModelAndView();
+		model.setViewName("password-edit");
+		return model;
+	}
+	@RequestMapping(value="/updatePasswordDo.action",method=RequestMethod.POST)
+	@ResponseBody
+	public JsonResult updatePasswordDo(String password,HttpSession session ){
+		JsonResult result=new JsonResult();
+		SysUser user = (SysUser) session.getAttribute("userInfo");
+		if(user!=null){
+			try {
+				userService.updatePassword(password, user.getId());
+			} catch (Exception e) {
+				result.setCode(0001);
+				result.setResultStr("更新失败");
+				e.printStackTrace();
+			}
+		}else{
+			result.setCode(0002);
+			result.setResultStr("登录超时");
+		}
+		
+		return result;
+	}
+	
 	
 	/*@RequestMapping("/item/{itemId}")
 	@ResponseBody

@@ -35,5 +35,16 @@ public class UserServiceImpl implements UserService{
 			return null;
 		}
 	}
+	@Override
+	public int updatePassword(String newPassword, Integer id) {
+		SysUser user=new SysUser();
+		user.setPwd(Md5Util.encode(newPassword));
+		user.setId(id);
+		return userMapper.updateByPrimaryKeySelective(user);
+	}
+	public static void main(String[] args) {
+		System.out.println(Md5Util.encode("121212"));
+		System.out.println(Md5Util.encode("admin"));
+	}
 
 }
