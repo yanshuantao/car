@@ -1043,9 +1043,14 @@ public class ItemExample  implements Serializable{
         }
     }
 
-    public static class Criteria extends GeneratedCriteria {
+    public static class Criteria extends GeneratedCriteria implements Serializable{
 
-        protected Criteria() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -2577336948374879739L;
+
+		protected Criteria() {
             super();
         }
     }

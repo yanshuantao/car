@@ -149,4 +149,10 @@ public class ItemServiceImpl implements ItemService{
 		itemMapper.updateByPrimaryKeySelective(item);
 	}
 
+	@Override
+	public List<Item> getItemListByexample(ItemExample example) {
+		return itemMapper.selectByExampleWithBLOBs(example);
+	}
+	
+
 }

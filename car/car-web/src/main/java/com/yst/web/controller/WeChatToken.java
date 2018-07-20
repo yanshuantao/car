@@ -45,5 +45,5 @@ public static final String TOKEN = "yst_car_manager_token";
             response.getWriter().print(echostr);  
         }  
 	}
-	@RequestMapping(value="")
+	/*@RequestMapping(value="")*/
 }

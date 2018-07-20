@@ -4,9 +4,9 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
 	<display-name>car-web</display-name>
-	<!-- <welcome-file-list>
-		<welcome-file>login.jsp</welcome-file>
-	</welcome-file-list> -->
+	<welcome-file-list>
+		<welcome-file>/pages/index.html</welcome-file>
+	</welcome-file-list>
 	<!-- 解决post乱码 -->
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
