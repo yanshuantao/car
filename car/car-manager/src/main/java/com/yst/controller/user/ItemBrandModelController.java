@@ -18,6 +18,7 @@ import com.yst.service.ItemBrandModelService;
 @Controller
 public class ItemBrandModelController {
 	
+	
 	@Autowired
 	private ItemBrandModelService itemBrandModelService;
 	

@@ -9,6 +9,7 @@
 	<properties>
 		<junit.version>4.12</junit.version>
 		<spring.version>4.2.4.RELEASE</spring.version>
+		<springTest.version>4.2.5.RELEASE</springTest.version>
 		<mybatis.version>3.2.8</mybatis.version>
 		<mybatis.spring.version>1.2.2</mybatis.spring.version>
 		<mybatis.paginator.version>1.2.15</mybatis.paginator.version>
@@ -29,6 +30,7 @@
 		<jsqlparser.version>0.9.1</jsqlparser.version>
 		<commons-fileupload.version>1.3.1</commons-fileupload.version>
 		<jedis.version>2.7.2</jedis.version>
+		<springJedis.version>1.6.4.RELEASE</springJedis.version>
 		<solrj.version>4.10.3</solrj.version>
 		<dubbo.version>2.5.3</dubbo.version>
 		<zookeeper.version>3.4.7</zookeeper.version>
@@ -36,6 +38,7 @@
 		<activemq.version>5.11.2</activemq.version>
 		<freemarker.version>2.3.23</freemarker.version>
 		<quartz.version>2.2.2</quartz.version>
+		<commonsPool2.version>2.3</commonsPool2.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -196,6 +199,12 @@
 				<artifactId>jedis</artifactId>
 				<version>${jedis.version}</version>
 			</dependency>
+			<dependency>
+			    <groupId>org.springframework.data</groupId>
+			    <artifactId>spring-data-redis</artifactId>
+			    <version>${springJedis.version}</version>
+			</dependency>
+			
 			<!-- solr客户端 -->
 			<dependency>
 				<groupId>org.apache.solr</groupId>
@@ -235,6 +244,20 @@
 			    <artifactId>json-lib</artifactId>
 			    <version>2.3</version> 
 			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+			<dependency>
+			    <groupId>org.springframework</groupId>
+			    <artifactId>spring-test</artifactId>
+			    <version>${springTest.version}</version>
+			    <scope>test</scope>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
+			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-pool2</artifactId>
+			    <version>${commonsPool2.version}</version>
+			</dependency>
+			
 			
 		</dependencies>
 	</dependencyManagement>

@@ -1,4 +1,3 @@
-@media only screen and (max-width: 500px) {
 .centerContainer {
 	width: 1200px;
 	margin: 0 auto;
@@ -54,4 +53,9 @@ li {
     -o-text-overflow: ellipsis;
     overflow: hidden;
 }
+.clearfloat{clear:both;height:0;font-size: 1px;line-height: 0px;} 
+.li1{
+	width:40%;
+	height:250px;
+	float:left;
 }

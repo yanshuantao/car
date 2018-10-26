@@ -1,5 +1,7 @@
 package com.yst.web.weixin.util;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.yst.web.model.AccessToken;
 import com.yst.web.model.Button;
 import com.yst.web.model.CommonButton;
@@ -42,10 +44,10 @@ public class MenuManager {
 	 */
 	private static Menu getMenu() {
 		CommonButton btn11 = new CommonButton();
-		btn11.setName("汽车超市view菜单2");
+		btn11.setName("汽车超市view菜单");
 		btn11.setType("view");
 		btn11.setKey("11");
-		btn11.setUrl("http://imkdmt.natappfree.cc/car-web/car-list.action");
+		btn11.setUrl("http://iaw5wb.natappfree.cc/car-web/car-list.action");
 
 		CommonButton btn12 = new CommonButton();
 		btn12.setName("公交查询");
